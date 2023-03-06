@@ -38,6 +38,14 @@ public class Shapes extends Shape {
 		this.end = end;
 	}
 	
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 	public void setEnd(double endX, double endY) {
 		setEnd(new Point(endX, endY, 0, Color.BLACK));
 	}

@@ -39,8 +39,14 @@ public class BorderColorButton extends Button {
 			red.clicked();
 		});
 		
+		OrangeButton orange = new OrangeButton();
+		GridPane.setConstraints(orange, 5, 0);
+		orange.setOnAction(e -> {
+			orange.clicked();
+		});
+		
 		YellowButton yellow = new YellowButton();
-		GridPane.setConstraints(yellow, 5, 0);
+		GridPane.setConstraints(yellow, 6, 0);
 		yellow.setOnAction(e -> {
 			yellow.clicked();
 		});
@@ -49,7 +55,7 @@ public class BorderColorButton extends Button {
 		colorLabel.setStyle("-fx-font-size: 10pt; -fx-background-color: white; -fx-font-color: black");
 		GridPane.setConstraints(colorLabel, 0, 0);
 		
-		borderColorBox.getChildren().addAll(black, green, blue, red, yellow, colorLabel);
+		borderColorBox.getChildren().addAll(black, green, blue, red, orange, yellow, colorLabel);
 		borderColorBox.setAlignment(Pos.CENTER);
 	}
 }

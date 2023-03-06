@@ -2,12 +2,16 @@ package application;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.effect.Light.Point;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -20,7 +24,7 @@ public class PaintMain extends Application {
 	Stage window;
 	static Shapes currentShape = new Shapes();
 	static Color currentColor = Color.BLACK;
-	ArrayList<Shapes> paints = new ArrayList<>();
+	static ArrayList<Shapes> paints = new ArrayList<>();
 	
 	public static void main(String[]args) {
 		launch(args);
@@ -31,6 +35,7 @@ public class PaintMain extends Application {
 		window = primaryStage;
 		window.setTitle("Paint");
 		BorderPane myPaint = new BorderPane();
+		BorderPane listOfTools = new BorderPane();
 		
 		GridPane tool = new GridPane();
 		//Create a pane to store shapes
@@ -51,7 +56,8 @@ public class PaintMain extends Application {
 		GridPane.setConstraints(borderColorBox, 1, 0);
 		
 		tool.getChildren().addAll(shapeBox, borderColorBox);
-		myPaint.setTop(tool);
+		listOfTools.setBottom(tool);
+		myPaint.setTop(listOfTools);
 		
 		FlowPane canvasPane = new FlowPane();
 		canvasPane.setStyle("-fx-background-color: #FFFFFF");
@@ -76,9 +82,9 @@ public class PaintMain extends Application {
 				for (Shapes shape : paints) {
 					shape.draw(gc);
 				}
-				
+	
 				currentShape = currentShape.createNewShape(currentShape.getStart(), 
-															new Point(e.getX(), e.getY(), 0, currentColor), currentColor);
+												new Point(e.getX(), e.getY(), 0, currentColor), currentColor);
 				currentShape.draw(gc);
 			}
 		});
@@ -86,12 +92,58 @@ public class PaintMain extends Application {
 		canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-				System.out.println(currentColor);
 				currentShape = currentShape.createNewShape(currentShape.getStart(), 
-															new Point(e.getX(), e.getY(), 0, currentColor), currentColor);
+												new Point(e.getX(), e.getY(), 0, currentColor), currentColor);
 				paints.add(currentShape);
 			}	
 		});
+		
+		MenuBar menu = new MenuBar();
+		Menu fileMenu = new Menu("_File");
+
+		MenuItem save = new MenuItem("Save");
+		save.setOnAction(e -> {
+			SaveBox.display();
+		});
+		
+		MenuItem open = new MenuItem("Open");
+		open.setOnAction(e -> {
+			OpenBox.display();
+			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+			for (Shapes shape : paints) {
+				shape.draw(gc);
+			}
+		});
+		
+		fileMenu.getItems().addAll(open, save);
+		
+		Menu edit = new Menu("_Edit");
+
+		MenuItem undo = new MenuItem("Undo");
+		undo.setOnAction(e -> {
+			paints.remove(paints.size() - 1);			
+			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+			for (Shapes shape : paints) {
+				shape.draw(gc);
+			}
+		});
+		
+		MenuItem delete = new MenuItem("Delete");
+		delete.setOnAction(e -> {
+			paints.clear();
+			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+			for (Shapes shape : paints) {
+				shape.draw(gc);
+			}
+		});
+		
+		edit.getItems().addAll(undo, delete);
+		
+		menu.getMenus().addAll(fileMenu, edit);
+		listOfTools.setTop(menu);
 		
 		Scene scene = new Scene(myPaint, 1200, 700);
 		scene.getStylesheets().add(this.getClass().getResource("color.css").toExternalForm());
