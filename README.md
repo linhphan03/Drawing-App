@@ -33,5 +33,9 @@ Java
 
 - Delete Choice on Menu: Delete everything
 
+## Future Improvement:
+- Save files in .png, .jpg and .jpeg
+- More complete version of Paint
 
 ## Instructions on how to use:
+![alt text](https://github.com/linhphan03/Windows-Paint/blob/a217d52a7e7cd70e2f75d5068ae77d25424dc51b/PaintInstruction.gif)
