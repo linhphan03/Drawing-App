@@ -56,6 +56,7 @@ public class PaintFile {
 				Double startY = sc.nextDouble();
 				Double endX = sc.nextDouble();
 				Double endY = sc.nextDouble();
+				System.out.println(startX + " " + startY + " " + endX + " " + endY);
 				color = ColorMapping.colorMapping().get(sc.next());
 				String type = sc.next();
 				

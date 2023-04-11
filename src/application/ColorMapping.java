@@ -13,7 +13,7 @@ public class ColorMapping {
 		colorMap.put("#3F48CC", Color.BLUE);
 		colorMap.put("#ED1C24", Color.RED);
 		colorMap.put("#FFF200", Color.YELLOW);
-		
+		colorMap.put("#FFA500", Color.ORANGE);
 		return colorMap;
 	}
 
